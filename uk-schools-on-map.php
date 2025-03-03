@@ -161,22 +161,29 @@ function uk_schools_on_map_options_page() {
         <p>3. Use the shortcode <code>[uk_schools_on_map]</code> to embed the map on any page or post.</p>
 
         <hr>
+        <form method="post" action="options.php">
+    <?php settings_fields('uk_schools_on_map_options_group'); ?>
+ 
+
+    <h2>Google Maps API Key</h2>
+    <table class="form-table">
+        <tr valign="top">
+            <th scope="row">Google Maps API Key</th>
+            <td>
+                <input type="text" name="uk_schools_on_map_api_key" value="<?php echo esc_attr(get_option('uk_schools_on_map_api_key')); ?>" />
+                <p class="description">Enter your Google Maps API key to enable the map functionality.</p>
+            </td>
+        </tr>
+    </table>
+
+    <?php submit_button('Save API Key'); ?>
+</form>
+
         <form method="post">
-            <?php settings_fields('uk_schools_on_map_options_group'); ?>
+        
             <?php do_settings_sections('uk_schools_on_map'); ?>
 
-            <h2>Google Maps API Key</h2>
-            <table class="form-table">
-                <tr valign="top">
-                    <th scope="row">Google Maps API Key</th>
-                    <td>
-                        <input type="text" name="uk_schools_on_map_api_key" value="<?php echo esc_attr(get_option('uk_schools_on_map_api_key')); ?>" />
-                        <p class="description">Enter your Google Maps API key to enable the map functionality.</p>
-                    </td>
-                </tr>
-            </table>
-
-            <hr>
+       
             <h2>Manage School Addresses</h2>
             <table class="form-table">
                 <thead>
@@ -290,3 +297,5 @@ function uk_schools_on_map_options_page() {
     </script>
     <?php
 }
+
+

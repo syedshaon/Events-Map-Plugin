@@ -27,7 +27,7 @@ async function initMap() {
 
   // Fetch addresses from the WordPress backend
   const addresses = await fetchAddresses();
-  console.log(addresses);
+  // console.log(addresses);
 
   document.getElementById("postcode-form").addEventListener("submit", function (e) {
     e.preventDefault();
