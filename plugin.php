@@ -2,8 +2,9 @@
 /**
  * Plugin Name: Events on Map
  * Description: Display upcoming events on Google Maps.
- * Version: 1.1
+ * Version: 1.0
  * Author: Syed Mashiur Rahman
+ * Author URI: https://github.com/syedshaon
  */
 
 if (!defined('ABSPATH')) {
@@ -165,15 +166,16 @@ function events_on_map_options_page() {
               <input type="text" name="events_on_map_events_title" value="<?php echo esc_attr($events_title); ?>" placeholder="Enter title for upcoming events" style="width: 100%; max-width: 400px; margin-left: 50px;">
           </p>
 
-          <p  >Custom Marker Icon URL:
+          <p style="display: flex; gap:20px; align-items:center;" >Custom Marker Icon URL:
             <input type="text" name="events_on_map_marker_icon" id="events_on_map_marker_icon" value="<?php echo esc_attr(get_option('events_on_map_marker_icon', '')); ?>" placeholder="Enter or upload marker icon URL" style="width: 100%; max-width: 400px; margin-left: 50px;">
             <button type="button" class="button select-marker-icon">Select Image</button>
+              <img id="marker-icon-preview" src="<?php echo esc_url(get_option('events_on_map_marker_icon', '')); ?>" style="max-width: 40px; display: <?php echo get_option('events_on_map_marker_icon', '') ? 'block' : 'none'; ?>; margin-top: 10px;">
         </p>
-        <img id="marker-icon-preview" src="<?php echo esc_url(get_option('events_on_map_marker_icon', '')); ?>" style="max-width: 100px; display: <?php echo get_option('events_on_map_marker_icon', '') ? 'block' : 'none'; ?>; margin-top: 10px;">
+      
 
         <br><br>
 
-            <h2>Event Locations</h2>
+            <h2>Event Details</h2>
             <table id="events-table" class="widefat">
                 <thead>
                     <tr>
@@ -275,20 +277,21 @@ function events_on_map_delete_event() {
 
     // Retrieve settings
     $map_height = esc_attr(get_option('events_on_map_height', '1000px'));
+    
     $map_width = esc_attr(get_option('events_on_map_width', '100%'));
     $events_title = esc_html(get_option('events_on_map_events_title', 'Upcoming Events'));
 
     ob_start();
     ?>
     <div id="events-on-map-container" >
-       <div id="map" style=" height: <?php echo $map_height; ?>; width: <?php echo $map_width; ?>;"></div>
+       <div id="map" style=" height: <?php echo $map_height?$map_height:"1000px" ?>; width: <?php echo $map_width?$map_width:"100%"; ?>;"></div>
         <div id="events-on-map-events-list"  >
           <?php if (empty($upcoming_events)) : ?>
                 <p>No upcoming events available.</p>
             <?php endif; ?>
             <?php
             
-            $events_title && print('<h3 id="events-title">' . $events_title . '</h3>');
+            $events_title && print('<h4 id="events-title">' . $events_title . '</h4>');
             ?>
             
             <ul class="events-list">
@@ -300,8 +303,11 @@ function events_on_map_delete_event() {
                         <div class="details">
                           <strong><?php echo esc_html($event['name']); ?></strong><br>
                           <em><?php echo esc_html(date("d F Y", strtotime($event['start_date']))); ?> to <?php echo esc_html(date("d F Y", strtotime($event['end_date']))); ?> </em><br>
-                          <?php echo esc_html($event['location']); ?><br>
-                          <a href="javascript:void(0);" class="view-event-marker" data-lat="<?php echo esc_attr($event['latitude']); ?>" data-lng="<?php echo esc_attr($event['longitude']); ?>">View on Map</a>
+                          <strong>Organizer:</strong> <?php echo esc_html($event['organizer']); ?><br>
+                          <!-- placeholder.png show from plugin  -->
+                            
+                         
+                          <a href="javascript:void(0);" class="view-event-marker" data-lat="<?php echo esc_attr($event['latitude']); ?>" data-lng="<?php echo esc_attr($event['longitude']); ?>"> <img src="<?php echo plugin_dir_url(__FILE__) . 'placeholder.png'; ?>" alt="Event Image" style="width: 18px; height: auto;">   <?php echo esc_html($event['location']); ?>  </a>
                         </div>
                     </li>
                 <?php endforeach; ?>

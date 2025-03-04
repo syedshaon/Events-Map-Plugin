@@ -67,14 +67,27 @@ ul.events-list li {
   margin-right: 20px;
 }
 
+.view-event-marker {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+#events-title {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
 @media screen and (max-width: 768px) {
   #events-on-map-events-list {
     width: 100%;
     /* top: 50%; */
-    bottom: 100px !important;
+    bottom: 150px !important;
     left: 0;
 
-    height: 180px;
+    height: 200px;
     overflow-x: scroll;
   }
 
@@ -84,7 +97,7 @@ ul.events-list li {
 
   ul.events-list {
     width: fit-content;
-    padding: 10px;
+    /* padding: 10px; */
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -95,5 +108,10 @@ ul.events-list li {
     width: 250px;
     border-bottom: none;
     height: 150px;
+  }
+  #events-title {
+    margin-bottom: 5px;
+    font-size: 1rem;
+    font-weight: bold;
   }
 }
