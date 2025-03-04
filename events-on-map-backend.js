@@ -33,22 +33,22 @@ jQuery(document).ready(function ($) {
   $("#add-event").on("click", function () {
     let index = $("#events-table tbody tr").length;
     let newRow = `
-            <tr>
-                <td><input type="text" name="addresses[${index}][name]" /></td>
-                <td><input type="date" name="addresses[${index}][start_date]" /></td>
-                  <td><input type="date" name="addresses[${index}][end_date]" /></td>
-                  <td><input type="text" name="addresses[][organizer]" /></td> 
-                <td><input type="text" name="addresses[${index}][location]" /></td>
-                <td><input type="text" name="addresses[${index}][latitude]" /></td>
-                <td><input type="text" name="addresses[${index}][longitude]" /></td>
-                <td>
-                    <input type="hidden" name="addresses[${index}][image]" class="event-image-url">
-                    <button type="button" class="button select-event-image">Select Image</button>
-                    <br>
-                    <img src="" width="50" class="event-image-preview" style="margin-top:5px; display:none;">
-                </td>
-                <td><button type="button" class="remove-event button">Remove</button></td>
-            </tr>`;
+      <tr>
+          <td><input type="text" name="addresses[${index}][name]" /></td>
+          <td><input type="date" name="addresses[${index}][start_date]" /></td>
+          <td><input type="date" name="addresses[${index}][end_date]" /></td>
+          <td><input type="text" name="addresses[${index}][organizer]" /></td> 
+          <td><input type="text" name="addresses[${index}][location]" /></td>
+          <td><input type="text" name="addresses[${index}][latitude]" /></td>
+          <td><input type="text" name="addresses[${index}][longitude]" /></td>
+          <td>
+              <input type="hidden" name="addresses[${index}][image]" class="event-image-url">
+              <button type="button" class="button select-event-image">Select Image</button>
+              <br>
+              <img src="" width="50" class="event-image-preview" style="margin-top:5px; display:none;">
+          </td>
+          <td><button type="button" class="remove-event button">Remove</button></td>
+      </tr>`;
 
     $("#events-table tbody").append(newRow);
 
@@ -56,11 +56,11 @@ jQuery(document).ready(function ($) {
     bindImageUploader($("#events-table tbody tr:last-child .select-event-image"));
   });
 
-  // Handle event removal (keeping previous fix)
+  // Handle event removal
   $(document).on("click", ".remove-event", function () {
     let row = $(this).closest("tr");
     let eventName = row.find("input[name*='[name]']").val();
-    let eventDate = row.find("input[name*='[date]']").val();
+    let eventDate = row.find("input[name*='[start_date]']").val(); // Fixed from 'date'
 
     if (!eventName || !eventDate) {
       row.remove();
