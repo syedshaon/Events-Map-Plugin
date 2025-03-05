@@ -235,7 +235,7 @@ function events_on_map_delete_event() {
 
     // Find the event in the array
     foreach ($events as $index => $event) {
-        if ($event['name'] === $event_name && $event['date'] === $event_date) {
+        if ($event['name'] === $event_name && $event['start_date'] === $event_date) {
             unset($events[$index]); // Remove the event
             $events = array_values($events); // Re-index array
             update_option('events_on_map_addresses', $events);
@@ -246,17 +246,7 @@ function events_on_map_delete_event() {
     wp_send_json_error("Event not found.");
 }
 
-
-
-
-
-
-
-
-
-
-
-
+ 
 
 // Define the shortcode for displaying the map and events
  function events_on_map_shortcode($atts) {
@@ -273,7 +263,7 @@ function events_on_map_delete_event() {
         }
     }
 
-    $upcoming_events = array_slice($upcoming_events, 0, 10);
+    // $upcoming_events = array_slice($upcoming_events, 0, 10);
 
     // Retrieve settings
     $map_height = esc_attr(get_option('events_on_map_height', '1000px'));
