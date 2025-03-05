@@ -93,9 +93,7 @@ function events_on_map_options_page() {
             'name'      => sanitize_text_field($event['name'] ?? ''),
             'start_date'=> sanitize_text_field($event['start_date'] ?? ''),
             'end_date'  => sanitize_text_field($event['end_date'] ?? ''),
-            'location'  => sanitize_text_field($event['location'] ?? ''),
-            'latitude'  => sanitize_text_field($event['latitude'] ?? ''),
-            'longitude' => sanitize_text_field($event['longitude'] ?? ''),
+            'location'  => sanitize_text_field($event['location'] ?? ''), 
             'image'     => sanitize_text_field($event['image'] ?? ''),
             'organizer' => sanitize_text_field($event['organizer'] ?? '') // New field for organizer
         ];
@@ -183,9 +181,7 @@ function events_on_map_options_page() {
                         <th>Start Date</th>
                         <th>End Date</th>
                         <th>Organizer</th>
-                        <th>Location</th>
-                        <th>Latitude</th>
-                        <th>Longitude</th>
+                        <th>Location</th> 
                         <th>Event Image</th>
                         <th>Action</th>
                     </tr>
@@ -193,14 +189,13 @@ function events_on_map_options_page() {
                 <tbody>
                     <?php foreach ($addresses as $index => $address) : ?>
                         <tr>
-                            <td><input type="text" name="addresses[<?php echo $index; ?>][name]" value="<?php echo esc_attr($address['name'] ?? ''); ?>" /></td>
-                            <td><input type="date" name="addresses[<?php echo $index; ?>][start_date]" value="<?php echo esc_attr($address['start_date'] ?? ''); ?>" /></td>
+                            <td><input required type="text" name="addresses[<?php echo $index; ?>][name]" value="<?php echo esc_attr($address['name'] ?? ''); ?>" /></td>
+                            <td><input required type="date" name="addresses[<?php echo $index; ?>][start_date]" value="<?php echo esc_attr($address['start_date'] ?? ''); ?>" /></td>
                             <td><input type="date" name="addresses[<?php echo $index; ?>][end_date]" value="<?php echo esc_attr($address['end_date'] ?? ''); ?>" /></td>
                             <td><input type="text" name="addresses[<?php echo $index; ?>][organizer]" value="<?php echo esc_attr($address['organizer'] ?? ''); ?>" /></td>
 
                             <td><input type="text" name="addresses[<?php echo $index; ?>][location]" value="<?php echo esc_attr($address['location'] ?? ''); ?>" /></td>
-                            <td><input type="text" name="addresses[<?php echo $index; ?>][latitude]" value="<?php echo esc_attr($address['latitude'] ?? ''); ?>" /></td>
-                            <td><input type="text" name="addresses[<?php echo $index; ?>][longitude]" value="<?php echo esc_attr($address['longitude'] ?? ''); ?>" /></td>
+                       
                             <td style="display: flex; align-items: center; gap: 10px;">
                               <img src="<?php echo esc_url($address['image']); ?>" width="50" class="event-image-preview" style="margin-top:5px; <?php echo empty($address['image']) ? 'display:none;' : ''; ?>">
                                 <input type="hidden" name="addresses[<?php echo $index; ?>][image]" class="event-image-url" value="<?php echo esc_attr($address['image'] ?? ''); ?>">
@@ -232,10 +227,11 @@ function events_on_map_delete_event() {
     $event_date = sanitize_text_field($_POST['event_date']);
 
     $events = get_option('events_on_map_addresses', []);
+    
 
     // Find the event in the array
     foreach ($events as $index => $event) {
-        if ($event['name'] === $event_name && $event['date'] === $event_date) {
+        if ($event['name'] === $event_name && $event['start_date'] === $event_date) {
             unset($events[$index]); // Remove the event
             $events = array_values($events); // Re-index array
             update_option('events_on_map_addresses', $events);
@@ -261,19 +257,27 @@ function events_on_map_delete_event() {
 // Define the shortcode for displaying the map and events
  function events_on_map_shortcode($atts) {
     $events = get_option('events_on_map_addresses', []);
+
+   
+    
     if (!is_array($events)) {
         return '<p>No events available.</p>';
     }
 
-    $upcoming_events = [];
-    $current_time = current_time('Y-m-d H:i:s');
-    foreach ($events as $event) {
-        if ($event['start_date'] >= $current_time) {
-            $upcoming_events[] = $event;
-        }
-    }
+   $current_time = strtotime(current_time('Y-m-d')); // Convert to timestamp
+  $upcoming_events = [];
+   foreach ($events as $event) {
+      if (!empty($event['start_date'])) {
+          $event_start_time = strtotime($event['start_date']); // Convert event date to timestamp
+
+          if ($event_start_time >= $current_time) { 
+              $upcoming_events[] = $event;
+          }
+      }
+      }
 
     $upcoming_events = array_slice($upcoming_events, 0, 10);
+  
 
     // Retrieve settings
     $map_height = esc_attr(get_option('events_on_map_height', '1000px'));
@@ -307,7 +311,7 @@ function events_on_map_delete_event() {
                           <!-- placeholder.png show from plugin  -->
                             
                          
-                          <a href="javascript:void(0);" class="view-event-marker" data-lat="<?php echo esc_attr($event['latitude']); ?>" data-lng="<?php echo esc_attr($event['longitude']); ?>"> <img src="<?php echo plugin_dir_url(__FILE__) . 'placeholder.png'; ?>" alt="Event Image" style="width: 18px; height: auto;">   <?php echo esc_html($event['location']); ?>  </a>
+                          <a href="javascript:void(0);" class="view-event-marker"  data-location="<?php echo esc_attr($event['location']); ?>">  <img src="<?php echo plugin_dir_url(__FILE__) . 'placeholder.png'; ?>" alt="Event Image" style="width: 18px; height: auto;">   <?php echo esc_html($event['location']); ?>  </a>
                         </div>
                     </li>
                 <?php endforeach; ?>
@@ -319,3 +323,5 @@ function events_on_map_delete_event() {
     return ob_get_clean();
 }
 add_shortcode('events_on_map', 'events_on_map_shortcode');
+
+ 

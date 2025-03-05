@@ -32,15 +32,15 @@ jQuery(document).ready(function ($) {
   // Handle adding new events
   $("#add-event").on("click", function () {
     let index = $("#events-table tbody tr").length;
+    console.log("Adding event at index: ", index); // Debugging
+
     let newRow = `
       <tr>
           <td><input type="text" name="addresses[${index}][name]" /></td>
           <td><input type="date" name="addresses[${index}][start_date]" /></td>
           <td><input type="date" name="addresses[${index}][end_date]" /></td>
           <td><input type="text" name="addresses[${index}][organizer]" /></td> 
-          <td><input type="text" name="addresses[${index}][location]" /></td>
-          <td><input type="text" name="addresses[${index}][latitude]" /></td>
-          <td><input type="text" name="addresses[${index}][longitude]" /></td>
+          <td><input type="text" name="addresses[${index}][location]" /></td> 
           <td>
               <input type="hidden" name="addresses[${index}][image]" class="event-image-url">
               <button type="button" class="button select-event-image">Select Image</button>
