@@ -52,8 +52,7 @@ function initMap() {
                       ${event.image ? `<img src="${event.image}" alt="Event Image" width="100">` : ""}
                       <div>
                           <strong>${event.name}</strong><br>
-                          <em>${formatDate(event.start_date)} to ${formatDate(event.end_date)}</em><br>
-                          <strong>Location:</strong> ${event.location}<br>
+                          <em>${formatDate(event.start_date)} to ${formatDate(event.end_date)}</em><br> 
                           <strong>Organizer:</strong> ${event.organizer}
                       </div>
                   </div>

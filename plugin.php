@@ -304,8 +304,8 @@ function events_on_map_shortcode($atts) {
                             </div>
                             <div class="details">
                                 <strong><?php echo esc_html($event['name']); ?></strong><br>
-                                <em><?php echo esc_html(date("d F Y", strtotime($event['start_date']))); ?> to <?php echo esc_html(date("d F Y", strtotime($event['end_date']))); ?></em><br>
-                                <strong>Organizer:</strong> <?php echo esc_html($event['organizer']); ?><br>
+                                <small><?php echo esc_html(date("d F Y", strtotime($event['start_date']))); ?> to <?php echo esc_html(date("d F Y", strtotime($event['end_date']))); ?></small><br>
+                                <strong>Organizer:</strong> <small><?php echo esc_html($event['organizer']); ?></small><br>
                                 <a href="javascript:void(0);" class="view-event-marker" data-location="<?php echo esc_attr($event['location']); ?>">
                                     <img src="<?php echo plugin_dir_url(__FILE__) . 'placeholder.png'; ?>" alt="Event Image" style="width: 18px; height: auto;"> <?php echo esc_html($event['location']); ?>
                                 </a>
