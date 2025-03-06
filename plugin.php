@@ -36,32 +36,37 @@ function events_on_map_enqueue_admin_scripts($hook) {
     ]);
 }
 add_action('admin_enqueue_scripts', 'events_on_map_enqueue_admin_scripts');
-
+ 
 function events_on_map_enqueue_scripts() {
     $google_maps_api_key = get_option('events_on_map_api_key', '');
 
-        wp_enqueue_script('fullcalendar-js', plugin_dir_url(__FILE__) . 'fullcalendar.js', array('jquery'), null, true);
+    // Enqueue FullCalendar (Calendar)
+    wp_enqueue_script('fullcalendar-js', plugin_dir_url(__FILE__) . 'fullcalendar.js', array('jquery'), null, true);
     wp_enqueue_script('custom-calendar-js', plugin_dir_url(__FILE__) . 'calendar.js', array('fullcalendar-js'), null, true);
     wp_enqueue_style('fullcalendar-css', plugin_dir_url(__FILE__) . 'fullcalendar.css');
 
-
-        // Enqueue styles
+    // Enqueue styles
     wp_enqueue_style('events-on-map-style', plugin_dir_url(__FILE__) . 'styles.css');
 
-    // Enqueue Google Maps API
-    wp_enqueue_script('google-maps-api', 'https://maps.googleapis.com/maps/api/js?key=' . $google_maps_api_key . '&libraries=places&callback=initMap&loading=async&defer', [], null, true);
+    // ✅ Enqueue Google Maps API first
+    wp_enqueue_script(
+        'google-maps-api',
+        'https://maps.googleapis.com/maps/api/js?key=' . $google_maps_api_key . '&libraries=places&callback=initMap&loading=async&defer',
+        [],
+        null,
+        true
+    );
 
-    // Enqueue the frontend script
+    // ✅ Enqueue the frontend script
     wp_enqueue_script('events-on-map-frontend-js', plugin_dir_url(__FILE__) . 'mapFront.js', ['jquery'], null, true);
 
-    // Pass the events data to JavaScript
+    // ✅ Localize events data AFTER enqueuing frontend script
     wp_localize_script('events-on-map-frontend-js', 'eventsData', [
         'events'        => get_option('events_on_map_addresses', []),
         'mapHeight'     => get_option('events_on_map_height', '500px'),
         'mapWidth'      => get_option('events_on_map_width', '100%'),
         'eventsTitle'   => get_option('events_on_map_events_title', 'Upcoming Events'),
         'markerIcon'    => get_option('events_on_map_marker_icon', '') // Send marker icon URL
-    
     ]);
 }
 add_action('wp_enqueue_scripts', 'events_on_map_enqueue_scripts');

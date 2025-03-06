@@ -70,6 +70,7 @@ body {
   justify-content: space-between;
   align-items: center;
   font-size: 0.8rem;
+  gap: 10px;
 }
 @media screen and (max-width: 768px) {
   .event-info img {
