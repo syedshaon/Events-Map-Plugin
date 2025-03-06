@@ -49,7 +49,7 @@ function initMap() {
             const infowindow = new google.maps.InfoWindow({
               content: `
                   <div class="event-info">
-                      ${event.image ? `<img src="${event.image}" alt="Event Image" width="100">` : ""}
+                      ${event.image ? `<img src="${event.image}" alt="Event Image" width="50">` : ""}
                       <div>
                           <strong>${event.name}</strong><br>
                           <em>${formatDate(event.start_date)} to ${formatDate(event.end_date)}</em><br> 

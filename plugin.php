@@ -40,6 +40,11 @@ add_action('admin_enqueue_scripts', 'events_on_map_enqueue_admin_scripts');
 function events_on_map_enqueue_scripts() {
     $google_maps_api_key = get_option('events_on_map_api_key', '');
 
+        wp_enqueue_script('fullcalendar-js', plugin_dir_url(__FILE__) . 'fullcalendar.js', array('jquery'), null, true);
+    wp_enqueue_script('custom-calendar-js', plugin_dir_url(__FILE__) . 'calendar.js', array('fullcalendar-js'), null, true);
+    wp_enqueue_style('fullcalendar-css', plugin_dir_url(__FILE__) . 'fullcalendar.css');
+
+
         // Enqueue styles
     wp_enqueue_style('events-on-map-style', plugin_dir_url(__FILE__) . 'styles.css');
 
@@ -247,103 +252,42 @@ function events_on_map_delete_event() {
 
 
  // Define the shortcode for displaying the map and events
-function events_on_map_shortcode($atts) {
+ function events_on_map_shortcode($atts) {
     $events = get_option('events_on_map_addresses', []);
 
     if (!is_array($events)) {
         return '<p>No events available.</p>';
     }
 
-    $current_time = strtotime(current_time('Y-m-d'));
-    $upcoming_events = [];
-
-    // Filter and group events by month
+    $event_data = [];
     foreach ($events as $event) {
         if (!empty($event['start_date'])) {
-            $event_start_time = strtotime($event['start_date']);
-            if ($event_start_time >= $current_time) {
-                $month_year = date("F Y", $event_start_time); // e.g., "March 2025"
-                $upcoming_events[$month_year][] = $event;
-            }
+            $event_data[] = [
+                'title' => esc_html($event['name']),
+                'start' => esc_html($event['start_date']),
+                'end' => esc_html($event['end_date']),
+                'location' => esc_html($event['location']),
+                'image' => esc_url($event['image']),
+                'organizer' => esc_html($event['organizer']),
+            ];
         }
     }
 
-    if (empty($upcoming_events)) {
-        return '<p>No upcoming events available.</p>';
-    }
+    ob_start(); ?>
 
-    // Retrieve settings
-    $map_height = esc_attr(get_option('events_on_map_height', '1000px'));
-    $map_width = esc_attr(get_option('events_on_map_width', '100%'));
-    $events_title = esc_html(get_option('events_on_map_events_title', 'Upcoming Events'));
-
-    ob_start();
-    ?>
-    <div id="events-on-map-container">
-        <div id="map"  ></div>
-        
-        <div id="events-on-map-events-list">
-            <h4 id="events-title"><?php echo $events_title; ?></h4>
-            
-            <!-- Month Navigation Buttons -->
-            <div id="month-navigation" style="display: flex;">
-                <?php foreach (array_keys($upcoming_events) as $index => $month): ?>
-                    <button class="month-button" data-month="<?php echo esc_attr($index); ?>" <?php echo ($index === 0) ? 'class="active"' : ''; ?>>
-                        <?php echo esc_html($month); ?>
-                    </button>
-                <?php endforeach; ?>
-            </div>
-
-            <!-- Event Lists Grouped by Month -->
-            <?php foreach ($upcoming_events as $month => $events): ?>
-                <ul class="events-list month-events" data-month-index="<?php echo esc_attr(array_search($month, array_keys($upcoming_events))); ?>" style="display: none;">
-                    <?php foreach ($events as $event): ?>
-                        <li>
-                            <div class="image-in-front">
-                                <img src="<?php echo esc_url($event['image']); ?>" alt="<?php echo esc_attr($event['name']); ?>">
-                            </div>
-                            <div class="details">
-                                <strong><?php echo esc_html($event['name']); ?></strong><br>
-                                <small><?php echo esc_html(date("d F Y", strtotime($event['start_date']))); ?> to <?php echo esc_html(date("d F Y", strtotime($event['end_date']))); ?></small><br>
-                                <strong>Organizer:</strong> <small><?php echo esc_html($event['organizer']); ?></small><br>
-                                <a href="javascript:void(0);" class="view-event-marker" data-location="<?php echo esc_attr($event['location']); ?>">
-                                    <img src="<?php echo plugin_dir_url(__FILE__) . 'placeholder.png'; ?>" alt="Event Image" style="width: 18px; height: auto;"> <?php echo esc_html($event['location']); ?>
-                                </a>
-                            </div>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php endforeach; ?>
-        </div>
+    <div class="events-container">
+     
+      <div id="map"  ></div>
+       <div id="calendar"></div>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let buttons = document.querySelectorAll(".month-button");
-            let eventLists = document.querySelectorAll(".month-events");
-
-            if (buttons.length > 0) {
-                buttons[0].classList.add("active"); // Set first button as active
-                eventLists[0].style.display = "flex"; // Show first month's events
-            }
-
-            buttons.forEach((button, index) => {
-                button.addEventListener("click", function () {
-                    buttons.forEach(btn => btn.classList.remove("active"));
-                    this.classList.add("active");
-
-                    eventLists.forEach(list => list.style.display = "none");
-                    document.querySelector(`.month-events[data-month-index="${index}"]`).style.display = "flex";
-                });
-            });
-        });
+        var eventsData = <?php echo json_encode($event_data); ?>;
     </script>
 
-    <style>
-        
-    </style>
-    <?php
-
-    return ob_get_clean();
+    <?php return ob_get_clean();
 }
 add_shortcode('events_on_map', 'events_on_map_shortcode');
+
+
+ 

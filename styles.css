@@ -17,144 +17,88 @@ body {
 
 /* Front end */
 
-#events-on-map-container {
-  height: auto;
-  max-height: 100vh;
+/* Style the Calendar and Tooltips */
+
+.event-tooltip {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 1000;
+}
+
+.fc .fc-daygrid-day-top {
+  flex-direction: row;
+}
+.fc-daygrid-day:hover .event-tooltip {
+  display: block;
+}
+
+/* .fc-scroller.fc-scroller-liquid-absolute {
+  overflow-y: hidden !important;
+} */
+
+/* Style the Events*/
+
+.events-container {
   display: flex;
   justify-content: flex-start;
-  gap: 10px;
-  width: 100vw;
-  height: 80vh;
+  /* align-items: flex-start; */
 }
+
 #map {
-  height: 100%;
+  height: 70vh;
   width: calc(100vw - 400px);
 }
-#events-on-map-events-list {
-  width: 360px;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.75);
-  overflow-y: auto;
-  /* padding: 10px; */
-}
-
-#month-navigation {
-  margin-bottom: 10px;
-}
-.month-button {
-  background: #0073aa;
-  color: white;
-  padding: 8px 15px;
-  border: none;
-  cursor: pointer;
-  margin-right: 5px;
-  margin-bottom: 5px;
-  border-radius: 5px;
-}
-.month-button.active {
-  background: #005177;
-}
-
-ul.events-list {
-  list-style-type: none;
-  padding: 0;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.events-list li {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
+#calendar {
+  width: 400px;
   padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
-}
-.image-in-front img {
-  width: 50px;
   height: auto;
-  max-height: 50px;
-  object-fit: cover;
-  margin-right: 10px;
-  border-radius: 5px;
+  overflow-y: auto;
 }
 
+.fc-h-event .fc-event-title {
+  text-wrap: auto;
+}
+/* event info on map marker */
 .event-info {
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  font-size: 0.8rem;
 }
-.event-info img {
-  max-width: 100px;
-  height: auto;
-  margin-right: 20px;
-}
-
-.view-event-marker {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-}
-
-#events-title {
-  margin-bottom: 10px;
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
-#month-navigation {
-  flex-wrap: wrap;
+@media screen and (max-width: 768px) {
+  .event-info img {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 768px) {
-  #events-on-map-container {
+  .events-container {
     flex-direction: column;
-    justify-content: flex-start;
+    align-items: flex-start;
   }
+
   #map {
-    width: 100%;
-    height: calc(70vh - 300px);
+    width: 100vw;
+    height: 30vh;
   }
-  #events-on-map-events-list {
-    width: 100%;
-    height: auto;
-    background-color: rgba(255, 255, 255, 0.75);
-    overflow-y: auto;
-    padding: 10px;
+  #calendar {
+    width: 100vw;
   }
 
-  .image-in-front {
-    display: none;
+  .fc .fc-toolbar.fc-header-toolbar {
+    margin-bottom: 10px;
   }
-
-  ul.events-list {
-    width: 100%;
-    /* padding: 10px; */
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 15px;
-    flex-direction: row;
+  .fc .fc-toolbar-title {
+    font-size: 1.2rem !important;
   }
-
-  ul.events-list li {
-    /* width: 100%; */
-    border-bottom: none;
-    height: auto;
-    flex: 1 0 100%;
-    min-height: 150px;
-  }
-  #events-title {
-    margin-bottom: 5px;
-    font-size: 1rem;
-    font-weight: bold;
-  }
-  #month-navigation {
-    flex-wrap: nowrap;
-  }
-
-  .event-info img {
-    display: none;
+  .fc .fc-button {
+    padding: 3px;
+    font-size: 0.8rem;
   }
 }
