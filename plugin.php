@@ -46,7 +46,7 @@ function events_on_map_enqueue_scripts() {
     wp_enqueue_style('fullcalendar-css', plugin_dir_url(__FILE__) . 'fullcalendar.css');
 
     // Enqueue styles
-    wp_enqueue_style('events-on-map-style', plugin_dir_url(__FILE__) . 'styles.css');
+    wp_enqueue_style('events-on-map-style', plugin_dir_url(__FILE__) . 'mapstyles.css');
 
     // ✅ Enqueue Google Maps API first
     wp_enqueue_script(
@@ -280,7 +280,7 @@ function events_on_map_delete_event() {
 
     ob_start(); ?>
 
-    <div class="events-container">
+    <div class="events-container" style="display: flex;">
      
       <div id="map"  ></div>
        <div id="calendar"></div>
