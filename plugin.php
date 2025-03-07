@@ -208,11 +208,11 @@ function events_on_map_options_page() {
                             <td style="display: flex; align-items: center; gap: 10px;">
                               <img src="<?php echo esc_url($address['image']); ?>" width="50" class="event-image-preview" style="margin-top:5px; <?php echo empty($address['image']) ? 'display:none;' : ''; ?>">
                                 <input type="hidden" name="addresses[<?php echo $index; ?>][image]" class="event-image-url" value="<?php echo esc_attr($address['image'] ?? ''); ?>">
-                                <button type="button" class="button select-event-image">Select Image</button>
+                                <button type="button" class="button select-event-image"><?php esc_html_e('Select Image', 'events-on-map'); ?></button>
                                  
                                 
                             </td>
-                            <td><button type="button" class="remove-event button">Remove</button></td>
+                            <td><button type="button" class="remove-event button">Delete</button></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

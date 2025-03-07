@@ -1,0 +1,159 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Events on Map\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-03-07 09:01+0000\n"
+"PO-Revision-Date: 2025-03-07 09:10+0000\n"
+"Last-Translator: \n"
+"Language-Team: Polish\n"
+"Language: pl_PL\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10 >= 2 && n%10<=4 "
+"&&(n%100<10||n%100 >= 20)? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.7.1; wp-6.7.2\n"
+"X-Domain: events-on-map"
+
+#: plugin.php:164
+msgid "1. Add your Google Maps API key below to enable the map functionality."
+msgstr ""
+"1. Dodaj poniżej swój klucz API Map Google, aby włączyć funkcjonalność mapy."
+
+#: plugin.php:165
+msgid ""
+"2. Add and manage events through the address manager in this settings page."
+msgstr ""
+"2. Dodawaj i zarządzaj wydarzeniami za pomocą menedżera adresów na tej "
+"stronie ustawień."
+
+#: plugin.php:166
+msgid ""
+"3. Use the shortcode <code>[events_on_map]</code> to embed the map on any "
+"page or post."
+msgstr ""
+"3. Użyj krótkiego kodu <code>[events_on_map]</code>, aby osadzić mapę na "
+"dowolnej stronie lub wpisie."
+
+#: plugin.php:195
+msgid "Action"
+msgstr ""
+
+#: plugin.php:73
+msgid "April"
+msgstr "Kwiecień"
+
+#: plugin.php:77
+msgid "August"
+msgstr "Sierpień"
+
+#: plugin.php:176
+msgid "Custom Marker Icon URL: "
+msgstr "Adres URL ikony niestandardowego znacznika:"
+
+#: plugin.php:81
+msgid "December"
+msgstr "Grudzień"
+
+#. Description of the plugin
+msgid "Display upcoming events on Google Maps."
+msgstr "Wyświetl nadchodzące wydarzenia na Mapach Google."
+
+#: plugin.php:191
+msgid "End Date"
+msgstr "Data zakończenia"
+
+#: plugin.php:194
+msgid "Event Image"
+msgstr "Obraz wydarzenia"
+
+#: plugin.php:189
+msgid "Event Name"
+msgstr "Nazwa wydarzenia"
+
+#. Name of the plugin
+#: plugin.php:159
+msgid "Events on Map"
+msgstr ""
+
+#: plugin.php:71
+msgid "February"
+msgstr "Luty"
+
+#: plugin.php:172
+msgid "Google Maps API Key: "
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://github.com/syedshaon"
+msgstr ""
+
+#: plugin.php:163
+msgid "Instructions:"
+msgstr "Instrukcje:"
+
+#: plugin.php:70
+msgid "January"
+msgstr "Styczeń"
+
+#: plugin.php:76
+msgid "July"
+msgstr "Lipiec"
+
+#: plugin.php:75
+msgid "June"
+msgstr "Czerwiec"
+
+#: plugin.php:193
+msgid "Location"
+msgstr "Lokalizacja"
+
+#: plugin.php:72
+msgid "March"
+msgstr "marzec"
+
+#: plugin.php:74
+msgid "May"
+msgstr "Móc"
+
+#: plugin.php:80
+msgid "November"
+msgstr "Listopad"
+
+#: plugin.php:79
+msgid "October"
+msgstr "Październik"
+
+#: plugin.php:192
+msgid "Organizer"
+msgstr "Organizator"
+
+#: plugin.php:114 plugin.php:147
+msgid "Security check failed"
+msgstr ""
+
+#: plugin.php:178
+msgid "Select Image"
+msgstr "Wybierz obraz"
+
+#: plugin.php:78
+msgid "September"
+msgstr "Wrzesień"
+
+#: plugin.php:190
+msgid "Start Date"
+msgstr "Data rozpoczęcia"
+
+#. Author of the plugin
+msgid "Syed Mashiur Rahman"
+msgstr ""
+
+#: plugin.php:160
+msgid ""
+"This plugin allows you to display a map with upcoming events locations on "
+"map. Use the following shortcode to display the map on any page or post:"
+msgstr ""
+"Ta wtyczka umożliwia wyświetlanie mapy z lokalizacjami nadchodzących "
+"wydarzeń na mapie. Użyj następującego shortcode'u, aby wyświetlić mapę na "
+"dowolnej stronie lub poście:"
