@@ -1,0 +1,33 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Events on Map\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-03-07 08:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.7.1; wp-6.7.2\n"
+"X-Domain: Events-Map-Scotland"
+
+#. Description of the plugin
+msgid "Display upcoming events on Google Maps."
+msgstr ""
+
+#. Name of the plugin
+msgid "Events on Map"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://github.com/syedshaon"
+msgstr ""
+
+#. Author of the plugin
+msgid "Syed Mashiur Rahman"
+msgstr ""

@@ -4,7 +4,7 @@ let eventMarkers = {}; // Store event markers and info windows
 function formatDate(dateString) {
   const date = new Date(dateString);
   const day = date.getDate().toString().padStart(2, "0");
-  const month = date.toLocaleString("en-US", { month: "long" });
+  const month = eventsData.months[date.getMonth()]; // Get translated month from WordPress
   const year = date.getFullYear().toString().slice(-2);
   return `${day} ${month}, ${year}`;
 }

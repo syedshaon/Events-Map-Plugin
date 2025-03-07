@@ -18,10 +18,21 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   }));
 
-  console.log("Formatted Events:", formattedEvents); // Debugging
+  // console.log("Formatted Events:", formattedEvents); // Debugging
+  // Detect the current language from <html lang="xx-XX">
+  var siteLang = document.documentElement.lang || "en"; // Default to English if not found
+
+  console.log("Detected site language:", siteLang); // Debugging
 
   var calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: "dayGridMonth",
+    locale: siteLang, // ✅ Uses the user's browser language settings
+    height: "auto", // ✅ Adjusts calendar height automatically
+    // headerToolbar: {
+    //   left: "prev,next today",
+    //   center: "title",
+    //   right: "",
+    // },
     events: formattedEvents,
 
     eventDidMount: function (info) {

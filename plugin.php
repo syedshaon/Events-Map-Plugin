@@ -11,7 +11,11 @@ if (!defined('ABSPATH')) {
     exit; // Prevent direct access
 }
 
- 
+ function events_on_map_load_textdomain() {
+    load_plugin_textdomain('events-on-map', false, dirname(plugin_basename(__FILE__)) . '/languages');
+}
+add_action('plugins_loaded', 'events_on_map_load_textdomain');
+
 
  
 
@@ -41,7 +45,9 @@ function events_on_map_enqueue_scripts() {
     $google_maps_api_key = get_option('events_on_map_api_key', '');
 
     // Enqueue FullCalendar (Calendar)
+    wp_enqueue_script('moment-js', plugin_dir_url(__FILE__) . 'moment.js', array('jquery'), null, true);
     wp_enqueue_script('fullcalendar-js', plugin_dir_url(__FILE__) . 'fullcalendar.js', array('jquery'), null, true);
+    wp_enqueue_script('custom-calendar-locale-js', plugin_dir_url(__FILE__) . 'fullcalendarLocale.js', array('fullcalendar-js, moment-js'), null, true);
     wp_enqueue_script('custom-calendar-js', plugin_dir_url(__FILE__) . 'calendar.js', array('fullcalendar-js'), null, true);
     wp_enqueue_style('fullcalendar-css', plugin_dir_url(__FILE__) . 'fullcalendar.css');
 
@@ -60,13 +66,26 @@ function events_on_map_enqueue_scripts() {
     // ✅ Enqueue the frontend script
     wp_enqueue_script('events-on-map-frontend-js', plugin_dir_url(__FILE__) . 'mapFront.js', ['jquery'], null, true);
 
+    $localized_months = [
+                            esc_html__('January', 'events-on-map'),
+                            esc_html__('February', 'events-on-map'),
+                            esc_html__('March', 'events-on-map'),
+                            esc_html__('April', 'events-on-map'),
+                            esc_html__('May', 'events-on-map'),
+                            esc_html__('June', 'events-on-map'),
+                            esc_html__('July', 'events-on-map'),
+                            esc_html__('August', 'events-on-map'),
+                            esc_html__('September', 'events-on-map'),
+                            esc_html__('October', 'events-on-map'),
+                            esc_html__('November', 'events-on-map'),
+                            esc_html__('December', 'events-on-map'),
+                        ];
+
     // ✅ Localize events data AFTER enqueuing frontend script
     wp_localize_script('events-on-map-frontend-js', 'eventsData', [
         'events'        => get_option('events_on_map_addresses', []),
-        'mapHeight'     => get_option('events_on_map_height', '500px'),
-        'mapWidth'      => get_option('events_on_map_width', '100%'),
-        'eventsTitle'   => get_option('events_on_map_events_title', 'Upcoming Events'),
-        'markerIcon'    => get_option('events_on_map_marker_icon', '') // Send marker icon URL
+        'markerIcon'    => get_option('events_on_map_marker_icon', '') ,
+        'months'     => $localized_months,
     ]);
 }
 add_action('wp_enqueue_scripts', 'events_on_map_enqueue_scripts');
@@ -121,62 +140,42 @@ function events_on_map_options_page() {
 
     $google_maps_api_key = get_option('events_on_map_api_key', '');
     // Retrieve the stored map settings
-    $map_height = get_option('events_on_map_height', '500px');
-    $map_width = get_option('events_on_map_width', '100%'); // Default width
-    $events_title = get_option('events_on_map_events_title', 'Upcoming Events');
+    
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['events_on_map_nonce'])) {
         if (!wp_verify_nonce($_POST['events_on_map_nonce'], 'events_on_map_save')) {
             wp_die(__('Security check failed', 'events-on-map'));
         }
 
-        // Sanitize and save settings
-        $map_height = sanitize_text_field($_POST['events_on_map_height']);
-        update_option('events_on_map_height', $map_height);
-
-        $map_width = sanitize_text_field($_POST['events_on_map_width']);
-        update_option('events_on_map_width', $map_width);
-
-        $events_title = sanitize_text_field($_POST['events_on_map_events_title']);
-        update_option('events_on_map_events_title', $events_title);
+       
           // Save custom marker icon
         $marker_icon = sanitize_text_field($_POST['events_on_map_marker_icon']);
         update_option('events_on_map_marker_icon', $marker_icon);
     }
     ?>
     <div class="wrap">
-        <h1>Events on Map</h1>
-        <p>This plugin allows you to display a map with upcoming events locations on map. Use the following shortcode to display the map on any page or post: <code>[events_on_map]</code></p>
+         
+
+        <h1><?php esc_html_e('Events on Map', 'events-on-map'); ?></h1>
+        <p><?php esc_html_e('This plugin allows you to display a map with upcoming events locations on map. Use the following shortcode to display the map on any page or post:', 'events-on-map'); ?> <code>[events_on_map]</code></p>
+
         
-        <h3>Instructions:</h3>
-        <p>1. Add your Google Maps API key below to enable the map functionality.</p>
-        <p>2. Add and manage events through the address manager in this settings page.</p>
-        <p>3. Use the shortcode <code>[events_on_map]</code> to embed the map on any page or post.</p>
+        <h3><?php esc_html_e('Instructions:', 'events-on-map'); ?></h3>
+        <p><?php esc_html_e('1. Add your Google Maps API key below to enable the map functionality.', 'events-on-map'); ?></p>
+        <p><?php esc_html_e('2. Add and manage events through the address manager in this settings page.', 'events-on-map'); ?></p>
+        <p><?php esc_html_e('3. Use the shortcode <code>[events_on_map]</code> to embed the map on any page or post.', 'events-on-map'); ?></p>
 
         <hr>
         <form method="POST">
             <?php wp_nonce_field('events_on_map_save', 'events_on_map_nonce'); ?>
 
-            <p style="font-size: 20px;">Google Maps API Key: <input type="text" name="events_on_map_api_key" value="<?php echo esc_attr($google_maps_api_key); ?>" placeholder="Enter your Google Maps API key" style="width: 100%; max-width: 400px; margin-left: 50px;"> <sup style="color: red; font-weight: bold ; ">*</sup></p>
+            <p style="font-size: 20px;"><?php esc_html_e('Google Maps API Key: ', 'events-on-map'); ?> <input type="text" name="events_on_map_api_key" value="<?php echo esc_attr($google_maps_api_key); ?>" placeholder="Enter your Google Maps API key" style="width: 100%; max-width: 400px; margin-left: 50px;"> <sup style="color: red; font-weight: bold ; ">*</sup></p>
             
-          <!-- Add Map Height Field -->
-          <p >Map Height: 
-              <input type="text" name="events_on_map_height" value="<?php echo esc_attr($map_height); ?>" placeholder="e.g. 500px or 60vh" style="width: 100%; max-width: 400px; margin-left: 50px;">
-          </p>
+       
 
-          <!-- Add Map Width Field -->
-          <p >Map Width: 
-              <input type="text" name="events_on_map_width" value="<?php echo esc_attr($map_width); ?>" placeholder="e.g. 100% or 800px" style="width: 100%; max-width: 400px; margin-left: 50px;">
-          </p>
-
-          <!-- Add Upcoming Events Title Field -->
-          <p >Upcoming Events Title: 
-              <input type="text" name="events_on_map_events_title" value="<?php echo esc_attr($events_title); ?>" placeholder="Enter title for upcoming events" style="width: 100%; max-width: 400px; margin-left: 50px;">
-          </p>
-
-          <p style="display: flex; gap:20px; align-items:center;" >Custom Marker Icon URL:
+          <p style="display: flex; gap:20px; align-items:center;" ><?php esc_html_e('Custom Marker Icon URL: ', 'events-on-map'); ?>
             <input type="text" name="events_on_map_marker_icon" id="events_on_map_marker_icon" value="<?php echo esc_attr(get_option('events_on_map_marker_icon', '')); ?>" placeholder="Enter or upload marker icon URL" style="width: 100%; max-width: 400px; margin-left: 50px;">
-            <button type="button" class="button select-marker-icon">Select Image</button>
+            <button type="button" class="button select-marker-icon"><?php esc_html_e('Select Image', 'events-on-map'); ?></button>
               <img id="marker-icon-preview" src="<?php echo esc_url(get_option('events_on_map_marker_icon', '')); ?>" style="max-width: 40px; display: <?php echo get_option('events_on_map_marker_icon', '') ? 'block' : 'none'; ?>; margin-top: 10px;">
         </p>
       
@@ -187,13 +186,13 @@ function events_on_map_options_page() {
             <table id="events-table" class="widefat">
                 <thead>
                     <tr>
-                        <th>Event Name</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Organizer</th>
-                        <th>Location</th> 
-                        <th>Event Image</th>
-                        <th>Action</th>
+                        <th><?php esc_html_e('Event Name', 'events-on-map'); ?></th>
+                        <th><?php esc_html_e('Start Date', 'events-on-map'); ?></th>
+                        <th><?php esc_html_e('End Date', 'events-on-map'); ?></th>
+                        <th><?php esc_html_e('Organizer', 'events-on-map'); ?></th>
+                        <th><?php esc_html_e('Location', 'events-on-map'); ?></th> 
+                        <th><?php esc_html_e('Event Image', 'events-on-map'); ?></th>
+                        <th><?php esc_html_e('Action', 'events-on-map'); ?></th>
                     </tr>
                 </thead>
                 <tbody>

@@ -64,6 +64,15 @@ body {
 .fc-h-event .fc-event-title {
   text-wrap: auto;
 }
+
+.fc .fc-toolbar-title {
+  font-size: 1.3rem;
+}
+
+.fc .fc-button {
+  padding: 0 5px;
+  font-size: 1rem;
+}
 /* event info on map marker */
 .event-info {
   display: flex;
