@@ -84,6 +84,7 @@ function events_on_map_enqueue_scripts() {
     // ✅ Localize events data AFTER enqueuing frontend script
     wp_localize_script('events-on-map-frontend-js', 'eventsData', [
         'events'        => get_option('events_on_map_addresses', []),
+        'mapHeight'     => get_option('events_on_map_height', '500px'),
         'markerIcon'    => get_option('events_on_map_marker_icon', '') ,
         'months'     => $localized_months,
     ]);
@@ -139,6 +140,7 @@ function events_on_map_options_page() {
     }
 
     $google_maps_api_key = get_option('events_on_map_api_key', '');
+     $map_height = get_option('events_on_map_height', '500px');
     // Retrieve the stored map settings
     
 
@@ -147,6 +149,9 @@ function events_on_map_options_page() {
             wp_die(__('Security check failed', 'events-on-map'));
         }
 
+         // Sanitize and save settings
+        $map_height = sanitize_text_field($_POST['events_on_map_height']);
+        update_option('events_on_map_height', $map_height);
        
           // Save custom marker icon
         $marker_icon = sanitize_text_field($_POST['events_on_map_marker_icon']);
@@ -163,13 +168,17 @@ function events_on_map_options_page() {
         <h3><?php esc_html_e('Instructions:', 'events-on-map'); ?></h3>
         <p><?php esc_html_e('1. Add your Google Maps API key below to enable the map functionality.', 'events-on-map'); ?></p>
         <p><?php esc_html_e('2. Add and manage events through the address manager in this settings page.', 'events-on-map'); ?></p>
-        <p><?php esc_html_e('3. Use the shortcode <code>[events_on_map]</code> to embed the map on any page or post.', 'events-on-map'); ?></p>
+        <p><?php esc_html_e('3. Use the shortcode [events_on_map] to embed the map on any page or post.', 'events-on-map'); ?></p>
 
         <hr>
         <form method="POST">
             <?php wp_nonce_field('events_on_map_save', 'events_on_map_nonce'); ?>
 
             <p style="font-size: 20px;"><?php esc_html_e('Google Maps API Key: ', 'events-on-map'); ?> <input type="text" name="events_on_map_api_key" value="<?php echo esc_attr($google_maps_api_key); ?>" placeholder="Enter your Google Maps API key" style="width: 100%; max-width: 400px; margin-left: 50px;"> <sup style="color: red; font-weight: bold ; ">*</sup></p>
+              <!-- Add Map Height Field -->
+          <p ><?php esc_html_e('Map Height:', 'events-on-map'); ?> 
+              <input type="text" name="events_on_map_height" value="<?php echo esc_attr($map_height); ?>" placeholder="e.g. 500px or 60vh" style="width: 100%; max-width: 400px; margin-left: 50px;">
+          </p>
             
        
 
@@ -277,12 +286,15 @@ function events_on_map_delete_event() {
         }
     }
 
+     $map_height = esc_attr(get_option('events_on_map_height', '500px'));
+
     ob_start(); ?>
 
-    <div class="events-container" style="display: flex;">
+    <div class="events-container" style="display: flex; min-height:  <?php echo $map_height; ?>; gap: 20px;">
+      
      
-      <div id="map"  ></div>
-       <div id="calendar"></div>
+      <div id="map" style="min-height: 300px;" ></div>
+       <div id="calendar" style="max-width: 400px; max-height: <?php echo $map_height; ?>; min-height: <?php echo $map_height; ?>;" ></div>
     </div>
 
     <script>

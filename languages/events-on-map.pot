@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Events on Map\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-07 09:01+0000\n"
+"POT-Creation-Date: 2025-03-09 16:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -16,22 +16,21 @@ msgstr ""
 "X-Loco-Version: 2.7.1; wp-6.7.2\n"
 "X-Domain: events-on-map"
 
-#: plugin.php:164
+#: plugin.php:169
 msgid "1. Add your Google Maps API key below to enable the map functionality."
 msgstr ""
 
-#: plugin.php:165
+#: plugin.php:170
 msgid ""
 "2. Add and manage events through the address manager in this settings page."
 msgstr ""
 
-#: plugin.php:166
+#: plugin.php:171
 msgid ""
-"3. Use the shortcode <code>[events_on_map]</code> to embed the map on any "
-"page or post."
+"3. Use the shortcode [events_on_map] to embed the map on any page or post."
 msgstr ""
 
-#: plugin.php:195
+#: plugin.php:204
 msgid "Action"
 msgstr ""
 
@@ -43,7 +42,7 @@ msgstr ""
 msgid "August"
 msgstr ""
 
-#: plugin.php:176
+#: plugin.php:185
 msgid "Custom Marker Icon URL: "
 msgstr ""
 
@@ -55,20 +54,20 @@ msgstr ""
 msgid "Display upcoming events on Google Maps."
 msgstr ""
 
-#: plugin.php:191
+#: plugin.php:200
 msgid "End Date"
 msgstr ""
 
-#: plugin.php:194
+#: plugin.php:203
 msgid "Event Image"
 msgstr ""
 
-#: plugin.php:189
+#: plugin.php:198
 msgid "Event Name"
 msgstr ""
 
 #. Name of the plugin
-#: plugin.php:159
+#: plugin.php:164
 msgid "Events on Map"
 msgstr ""
 
@@ -76,7 +75,7 @@ msgstr ""
 msgid "February"
 msgstr ""
 
-#: plugin.php:172
+#: plugin.php:177
 msgid "Google Maps API Key: "
 msgstr ""
 
@@ -84,7 +83,7 @@ msgstr ""
 msgid "https://github.com/syedshaon"
 msgstr ""
 
-#: plugin.php:163
+#: plugin.php:168
 msgid "Instructions:"
 msgstr ""
 
@@ -100,8 +99,12 @@ msgstr ""
 msgid "June"
 msgstr ""
 
-#: plugin.php:193
+#: plugin.php:202
 msgid "Location"
+msgstr ""
+
+#: plugin.php:179
+msgid "Map Height:"
 msgstr ""
 
 #: plugin.php:72
@@ -120,15 +123,15 @@ msgstr ""
 msgid "October"
 msgstr ""
 
-#: plugin.php:192
+#: plugin.php:201
 msgid "Organizer"
 msgstr ""
 
-#: plugin.php:114 plugin.php:147
+#: plugin.php:115 plugin.php:149
 msgid "Security check failed"
 msgstr ""
 
-#: plugin.php:178
+#: plugin.php:187 plugin.php:220
 msgid "Select Image"
 msgstr ""
 
@@ -136,7 +139,7 @@ msgstr ""
 msgid "September"
 msgstr ""
 
-#: plugin.php:190
+#: plugin.php:199
 msgid "Start Date"
 msgstr ""
 
@@ -144,7 +147,7 @@ msgstr ""
 msgid "Syed Mashiur Rahman"
 msgstr ""
 
-#: plugin.php:160
+#: plugin.php:165
 msgid ""
 "This plugin allows you to display a map with upcoming events locations on "
 "map. Use the following shortcode to display the map on any page or post:"
